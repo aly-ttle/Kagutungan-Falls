@@ -1,0 +1,692 @@
+/* ==========================================================================
+   Kagutungan Falls — Brgy. Daligan, Santa Cruz, Ilocos Sur
+   Design tokens
+   ========================================================================== */
+
+:root {
+  /* Palette — drawn from the falls' own landscape: forest canopy, river
+     water, limestone trail rock, and the amber of late-afternoon light
+     through the tree cover. */
+  --pine: #1f3d2b;        /* deep forest green — dark surfaces, footer */
+  --moss: #3f6b4a;        /* mid green — headings on light bg, borders */
+  --river: #2c6e7f;       /* teal river blue — links, primary accent */
+  --sand: #e7ded0;        /* limestone trail tan — section backgrounds */
+  --paper: #faf7f1;       /* warm paper white — page background */
+  --amber: #a85c2a;       /* burnt amber — sparing, single accent use */
+  --ink: #1c2420;         /* near-black green-grey — body text */
+  --ink-soft: #445048;    /* softened body text on light backgrounds */
+  --line: #cdbfa4;        /* hairline / rule color */
+  --focus: #a85c2a;       /* visible focus ring color */
+
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-body: "Inter", -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", "Courier New", monospace;
+
+  --max-width: 1120px;
+}
+
+/* ==========================================================================
+   Base / reset
+   ========================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--paper);
+  line-height: 1.6;
+  font-size: 1.0625rem;
+}
+
+img { max-width: 100%; display: block; height: auto; }
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  color: var(--pine);
+  line-height: 1.15;
+  margin-top: 0;
+}
+
+h1 { font-size: clamp(2.25rem, 4vw + 1rem, 3.75rem); font-weight: 600; }
+h2 { font-size: clamp(1.6rem, 2vw + 1rem, 2.25rem); font-weight: 600; }
+h3 { font-size: 1.25rem; font-weight: 600; }
+
+p { margin: 0 0 1rem; max-width: 65ch; }
+
+a {
+  color: var(--river);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+}
+a:hover { color: var(--amber); }
+
+/* Visible, high-contrast focus state everywhere — required for keyboard
+   and screen-magnifier users. Never remove outline without replacing it. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.container {
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+/* ==========================================================================
+   Skip link — first focusable element, hidden until focused
+   ========================================================================== */
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -3.5rem;
+  background: var(--pine);
+  color: #fff;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0 0 6px 6px;
+  z-index: 100;
+  transition: top 0.15s ease;
+  font-family: var(--font-body);
+  font-weight: 600;
+}
+.skip-link:focus {
+  top: 0;
+}
+
+/* ==========================================================================
+   Header / primary navigation
+   ========================================================================== */
+
+.site-header {
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding-block: 1rem;
+}
+
+.site-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  text-decoration: none;
+  color: var(--pine);
+}
+
+.site-brand__mark {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+}
+
+.site-brand__text {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.15rem;
+  line-height: 1.1;
+  color: var(--pine);
+}
+
+.site-brand__text span {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: var(--ink-soft);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.primary-nav ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+}
+
+.primary-nav a {
+  display: inline-block;
+  padding: 0.55rem 0.9rem;
+  border-radius: 6px;
+  text-decoration: none;
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.primary-nav a:hover {
+  background: var(--sand);
+  color: var(--pine);
+}
+
+.primary-nav a[aria-current="page"] {
+  color: var(--river);
+  background: var(--sand);
+  box-shadow: inset 0 -3px 0 var(--river);
+}
+
+/* ==========================================================================
+   Contour-line motif — the site's signature device.
+   A topographic rule that stands in for the elevation trail hikers climb
+   to reach the falls. Used as a section divider, never as decoration alone.
+   ========================================================================== */
+
+.contour-divider {
+  width: 100%;
+  height: 28px;
+  display: block;
+}
+
+.contour-divider path {
+  fill: none;
+  stroke: var(--moss);
+  stroke-width: 1.5;
+  opacity: 0.55;
+}
+.contour-divider path:nth-child(2) { opacity: 0.35; }
+.contour-divider path:nth-child(3) { opacity: 0.2; }
+
+/* ==========================================================================
+   Hero
+   ========================================================================== */
+
+.hero {
+  background: linear-gradient(180deg, var(--pine) 0%, #16291c 100%);
+  color: #f3efe6;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero .container {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 2.5rem;
+  align-items: center;
+  padding-block: 3.5rem;
+}
+
+@media (max-width: 780px) {
+  .hero .container { grid-template-columns: 1fr; padding-block: 2.5rem; }
+}
+
+.hero__eyebrow {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+  color: #cfe3d4;
+  margin-bottom: 0.75rem;
+}
+
+.hero h1 { color: #fff; }
+
+.hero p.lede {
+  color: #dbe6df;
+  font-size: 1.1rem;
+  max-width: 46ch;
+}
+
+.hero__actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.8rem 1.4rem;
+  border-radius: 6px;
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 0.98rem;
+  border: 2px solid transparent;
+}
+
+.btn--primary {
+  background: var(--amber);
+  color: #fff;
+}
+.btn--primary:hover { background: #8f4a20; color: #fff; }
+
+.btn--ghost {
+  background: transparent;
+  border-color: #cfe3d4;
+  color: #f3efe6;
+}
+.btn--ghost:hover { border-color: #fff; color: #fff; background: rgba(255,255,255,0.08); }
+
+.hero__art {
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+/* ==========================================================================
+   Quick facts strip
+   ========================================================================== */
+
+.facts {
+  background: var(--sand);
+  border-bottom: 1px solid var(--line);
+}
+
+.facts .container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  padding-block: 2rem;
+}
+
+.fact dt {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--moss);
+  margin-bottom: 0.35rem;
+}
+
+.fact dd {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: var(--pine);
+  font-weight: 600;
+}
+
+.fact dd small {
+  display: block;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  margin-top: 0.15rem;
+}
+
+/* ==========================================================================
+   Generic section rhythm
+   ========================================================================== */
+
+.section {
+  padding-block: 3.5rem;
+}
+
+.section--tint {
+  background: #f2ede1;
+}
+
+.section__head {
+  max-width: 60ch;
+  margin-bottom: 2rem;
+}
+
+.section__head .kicker {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--river);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+/* Card grid (used for teasers, gallery, highlights) */
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.75rem;
+}
+
+.card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.card__body {
+  padding: 1.25rem 1.4rem 1.5rem;
+}
+
+.card h3 { margin-bottom: 0.5rem; }
+
+.card p:last-child { margin-bottom: 0; }
+
+.card__link {
+  font-weight: 700;
+  display: inline-block;
+  margin-top: 0.75rem;
+}
+
+/* ==========================================================================
+   Gallery
+   ========================================================================== */
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+figure.gallery-item {
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--paper);
+}
+
+figure.gallery-item figcaption {
+  padding: 0.85rem 1rem 1rem;
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+}
+
+figure.gallery-item figcaption strong {
+  display: block;
+  color: var(--pine);
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  margin-bottom: 0.15rem;
+}
+
+/* ==========================================================================
+   Trail steps (How to Get There) — numbering is meaningful here: it is a
+   literal sequence of directions a visitor follows in order.
+   ========================================================================== */
+
+.trail-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: trail;
+  border-left: 2px dashed var(--moss);
+  margin-left: 1rem;
+}
+
+.trail-steps li {
+  position: relative;
+  padding: 0 0 2.25rem 2.25rem;
+  counter-increment: trail;
+}
+
+.trail-steps li::before {
+  content: counter(trail);
+  position: absolute;
+  left: -1.05rem;
+  top: 0;
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 50%;
+  background: var(--river);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  border: 3px solid var(--paper);
+}
+
+.trail-steps li:last-child { padding-bottom: 0; }
+
+.trail-steps h3 { margin-bottom: 0.35rem; }
+
+/* Alert / notice box */
+
+.notice {
+  border: 1px solid var(--amber);
+  background: #fbf1e8;
+  border-radius: 8px;
+  padding: 1.1rem 1.3rem;
+  margin-block: 1.5rem;
+}
+
+.notice h3 {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--amber);
+  margin-bottom: 0.4rem;
+}
+
+.notice p:last-child { margin-bottom: 0; }
+
+/* ==========================================================================
+   Forms (Contact page)
+   ========================================================================== */
+
+.contact-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+}
+
+@media (max-width: 780px) {
+  .contact-layout { grid-template-columns: 1fr; }
+}
+
+fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+legend {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: var(--pine);
+  padding: 0;
+  margin-bottom: 1rem;
+}
+
+.form-field {
+  margin-bottom: 1.25rem;
+}
+
+.form-field label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  color: var(--ink);
+}
+
+.form-field .hint {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  margin-top: 0.3rem;
+}
+
+.form-field input,
+.form-field textarea,
+.form-field select {
+  width: 100%;
+  font: inherit;
+  padding: 0.7rem 0.85rem;
+  border: 1.5px solid var(--line);
+  border-radius: 6px;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.form-field input:focus-visible,
+.form-field textarea:focus-visible,
+.form-field select:focus-visible {
+  border-color: var(--focus);
+}
+
+.form-field textarea { resize: vertical; min-height: 140px; }
+
+.required-flag {
+  color: var(--amber);
+  font-weight: 700;
+}
+
+.contact-details dt {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: var(--moss);
+  margin-top: 1.1rem;
+}
+
+.contact-details dt:first-child { margin-top: 0; }
+
+.contact-details dd {
+  margin: 0.2rem 0 0;
+  font-size: 1.02rem;
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+
+.site-footer {
+  background: var(--pine);
+  color: #dfe8e1;
+  padding-block: 3rem 2rem;
+}
+
+.site-footer a { color: #f3efe6; }
+.site-footer a:hover { color: var(--sand); }
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.footer-grid h2 {
+  color: #fff;
+  font-size: 1.1rem;
+}
+
+.footer-grid ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-grid li { margin-bottom: 0.5rem; }
+
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.15);
+  padding-top: 1.25rem;
+  font-size: 0.85rem;
+  color: #bcd0c2;
+}
+
+/* Visually-hidden utility for extra screen-reader-only context */
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+/* ==========================================================================
+   Horizontal scroll strip (additional photos, below the main gallery)
+   ========================================================================== */
+
+.scroll-gallery {
+  /* The scroll gallery sits inside .gallery-grid, so make it span the
+     full row instead of being constrained to a single gallery card column. */
+  grid-column: 1 / -1;
+  width: 100%;
+  margin-top: 3rem;
+}
+
+.scroll-gallery__head {
+  text-align: center;
+  margin-bottom: 1.25rem;
+}
+
+.scroll-gallery__head p {
+  margin-inline: auto;
+}
+
+.scroll-track {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  padding-bottom: 0.25rem;
+
+  /* Hide the scrollbar across browsers — swipe/drag/scroll still works,
+     it just isn't drawn as a visible track+thumb. */
+  scrollbar-width: none;      /* Firefox */
+  -ms-overflow-style: none;   /* older Edge / IE */
+}
+
+.scroll-track::-webkit-scrollbar {
+  display: none;              /* Chrome, Safari, newer Edge */
+}
+
+.scroll-item {
+  flex: 0 0 auto;
+  width: clamp(160px, 42vw, 260px);
+  scroll-snap-align: start;
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--paper);
+}
+
+.scroll-item img {
+  width: 100%;
+  height: clamp(120px, 30vw, 180px);
+  object-fit: cover;
+}
+
+.scroll-item figcaption {
+  padding: 0.6rem 0.8rem 0.75rem;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+@media (max-width: 480px) {
+  .scroll-track { gap: 0.75rem; }
+}
